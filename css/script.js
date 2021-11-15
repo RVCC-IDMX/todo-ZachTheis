@@ -1,8 +1,7 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable no-unused-vars */
 /* eslint-disable comma-dangle */
 /* eslint-disable no-use-before-define */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-return-assign */
 const listsContainer = document.querySelector('[data-lists]');
 const newListForm = document.querySelector('[data-new-list-form]');
 const newListInput = document.querySelector(['data-new-list-input']);
@@ -15,7 +14,7 @@ const listCountElement = document.querySelector('[data-list-count]');
 const tasksContainer = document.querySelector('[data-tasks]');
 const taskTemplate = document.getElementById('task-template');
 const newTaskForm = document.querySelector('[data-new-task-form]');
-let newTaskInput = document.querySelector('[data-new-task-input]');
+const newTaskInput = document.querySelector('[data-new-task-input]');
 const clearCompleteTasksButton = document.querySelector(
   '[data-clear-complete-tasks-button]'
 );
@@ -35,7 +34,7 @@ listsContainer.addEventListener('click', (e) => {
 
 tasksContainer.addEventListener('click', (e) => {
   if (e.target.tagName.toLowerCase() === 'input') {
-    const selectedList = lists.find((list) => (list.id = selectedListId));
+    const selectedList = lists.find((list) => list.id === selectedListId);
     const selectedTask = selectedList.tasks.find(
       (task) => task.id === e.target.id
     );
@@ -72,18 +71,18 @@ newTaskForm.addEventListener('submit', (e) => {
   const taskName = newTaskInput.value;
   if (taskName == null || taskName === '') return;
   const task = createTask(taskName);
-  newTaskInput = null;
-  const selectedList = lists.find((list) => (list.id = selectedListId));
+  newTaskInput.value = null;
+  const selectedList = lists.find((list) => list.id === selectedListId);
   selectedList.tasks.push(task);
   saveAndRender();
 });
 
 function createList(name) {
-  return { id: Date.now().toString(), name, tasks: [] };
+  return { id: Date.now().toString(), name: name, tasks: [] };
 }
 
 function createTask(name) {
-  return { id: Date.now().toString(), name, complete: false };
+  return { id: Date.now().toString(), name: name, complete: false };
 }
 
 function saveAndRender() {
