@@ -151,4 +151,4 @@ function clearElement(element) {
   }
 }
 
-saveAndRender();
+render();
