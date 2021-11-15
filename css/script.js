@@ -14,9 +14,8 @@ const clearCompleteTasksButton = document.querySelector('[data-clear-complete-ta
 const LOCAL_STORAGE_LIST_KEY = 'task.list';
 const LOCAL_STORAGE_SELECTED_LIST_ID_KEY = 'task.selectedListId';
 
-
 let lists = JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || [];
-let selectedListId = localStorae.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
+let selectedListId = localStorage.getItem(LOCAL_STORAGE_SELECTED_LIST_ID_KEY);
 
 listsContainer.addEventListener('click', e => {
     if (e.target.tagName.toLowerCase() === 'li') {
@@ -39,7 +38,7 @@ clearCompleteTasksButton.addEventListener('click', e => {
     const selectedList = lists.filter(list => list.id === selectedListId);
     selectedList.tasks = selectedList.tasks.filter( task => !task.complete);
     saveAndRender();
-})
+});
 
 deleteListButton.addEventListener('click', e => {
     lists = lists.filter(list => list.id !== selectedListId);
@@ -50,9 +49,9 @@ deleteListButton.addEventListener('click', e => {
 newListForm.addEventListener('submit', e => {
     e.preventDefault();
     const listName = newListInput.value;
-    if(listName == null || listName == '') return;
+    if(listName == null || listName === '') return;
     const list = createList(listName);
-    newListInput = null;
+    newListInput.value = null;
     lists.push(list);
     saveAndRender();
 });
@@ -69,11 +68,11 @@ newTaskForm.addEventListener('submit', e => {
 });
 
 function createList(name) {
-    return { id: Date.now().toString(), name = name, tasks: []};
+    return { id: Date.now().toString(), name: name, tasks: [] };
 }
 
 function createTask(name) {
-    return { id: Date.now().toString(), name = name, complete: false};
+    return { id: Date.now().toString(), name: name, complete: false};
 }
 
 function saveAndRender() {
@@ -95,7 +94,7 @@ function render() {
         listDisplayContainer.style.display = 'none';
     } else {
         listDisplayContainer.style.display = '';
-        listTitleElement.innerText = selectedListId;
+        listTitleElement.innerText = selectedList.name;
         renderTaskCount(selectedList);
         clearElement(tasksContainer);
         renderTasks(selectedList);
@@ -135,7 +134,7 @@ function renderLists() {
 }
 
 function clearElement(element) {
-    while(element.firstChild()) {
+    while(element.firstChild) {
         element.removeChild(element.firstChild);
     }
 }
