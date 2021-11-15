@@ -4,7 +4,7 @@
 /* eslint-disable no-use-before-define */
 const listsContainer = document.querySelector('[data-lists]');
 const newListForm = document.querySelector('[data-new-list-form]');
-const newListInput = document.querySelector(['data-new-list-input']);
+const newListInput = document.querySelector('[data-new-list-input]');
 const deleteListButton = document.querySelector('[data-delete-list-button]');
 const listDisplayContainer = document.querySelector(
   '[data-list-display-container]'
@@ -45,7 +45,7 @@ tasksContainer.addEventListener('click', (e) => {
 });
 
 clearCompleteTasksButton.addEventListener('click', (e) => {
-  const selectedList = lists.filter((list) => list.id === selectedListId);
+  const selectedList = lists.find((list) => list.id === selectedListId);
   selectedList.tasks = selectedList.tasks.filter((task) => !task.complete);
   saveAndRender();
 });
@@ -150,5 +150,7 @@ function clearElement(element) {
     element.removeChild(element.firstChild);
   }
 }
+
+localStorage.clear();
 
 render();
